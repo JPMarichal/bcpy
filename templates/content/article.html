@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="article">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('content.articles') }}">Articles</a></li>
+            <li class="breadcrumb-item active">{{ article.title }}</li>
+        </ol>
+    </nav>
+
+    <article class="article__container">
+        <header class="mb-4">
+            <h1 class="article__title">{{ article.title }}</h1>
+            <div class="article__meta">
+                <span><i class="fas fa-user"></i> {{ article.author.username }}</span>
+                <span class="ms-3"><i class="fas fa-calendar"></i> {{ article.created_at.strftime('%B %d, %Y') }}</span>
+                {% if article.category %}
+                    <span class="ms-3"><i class="fas fa-folder"></i> {{ article.category }}</span>
+                {% endif %}
+            </div>
+            {% if article.tags %}
+                <div class="article__tags mt-2">
+                    {% for tag in article.tags.split(',') %}
+                        <span class="badge bg-secondary me-1">{{ tag.strip() }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </header>
+
+        <div class="article__content">
+            {{ article.content | safe }}
+        </div>
+
+        <footer class="article__footer mt-4 pt-3 border-top">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="article__updated">
+                    Last updated: {{ article.updated_at.strftime('%B %d, %Y') }}
+                </div>
+                <div class="article__share">
+                    <button class="btn btn-outline-primary btn-sm" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                    <a href="https://twitter.com/share?url={{ request.url }}&text={{ article.title }}" 
+                       class="btn btn-outline-info btn-sm" target="_blank">
+                        <i class="fab fa-twitter"></i> Share
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </article>
+</div>
+{% endblock %}

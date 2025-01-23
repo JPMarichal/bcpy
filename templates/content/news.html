@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="news-section">
+    <h1 class="mb-4">Latest News</h1>
+
+    <div class="news-grid">
+        {% for item in news.items %}
+            <article class="news">
+                <h2 class="news__title">
+                    <a href="#news-{{ item.id }}" data-bs-toggle="collapse" class="text-decoration-none text-dark">
+                        {{ item.title }}
+                    </a>
+                </h2>
+                <div class="news__date mb-2">
+                    <i class="fas fa-clock"></i> 
+                    {{ item.created_at.strftime('%B %d, %Y') }}
+                    <span class="ms-2">
+                        <i class="fas fa-user"></i> 
+                        {{ item.author.username }}
+                    </span>
+                </div>
+                <div class="collapse" id="news-{{ item.id }}">
+                    <div class="news__content card card-body mb-3">
+                        {{ item.content | safe }}
+                    </div>
+                </div>
+            </article>
+        {% else %}
+            <div class="alert alert-info">No news items available at this time.</div>
+        {% endfor %}
+    </div>
+
+    {% if news.pages > 1 %}
+        <nav aria-label="News pagination" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if news.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('content.news', page=news.prev_num) }}">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link"><i class="fas fa-chevron-left"></i> Previous</span>
+                    </li>
+                {% endif %}
+
+                {% for page_num in news.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
+                    {% if page_num %}
+                        <li class="page-item {% if page_num == news.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('content.news', page=page_num) }}">{{ page_num }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if news.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('content.news', page=news.next_num) }}">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Next <i class="fas fa-chevron-right"></i></span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+{% endblock %}

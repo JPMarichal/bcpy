@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="glossary-section">
+    <h1 class="mb-4">Glossary</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="btn-group" role="group" aria-label="Glossary categories">
+                <a href="{{ url_for('content.glossary', category='all') }}" 
+                   class="btn btn-outline-primary {% if category == 'all' %}active{% endif %}">
+                    All Terms
+                </a>
+                <a href="{{ url_for('content.glossary', category='places') }}" 
+                   class="btn btn-outline-primary {% if category == 'places' %}active{% endif %}">
+                    Places
+                </a>
+                <a href="{{ url_for('content.glossary', category='people') }}" 
+                   class="btn btn-outline-primary {% if category == 'people' %}active{% endif %}">
+                    People
+                </a>
+                <a href="{{ url_for('content.glossary', category='terms') }}" 
+                   class="btn btn-outline-primary {% if category == 'terms' %}active{% endif %}">
+                    Terms
+                </a>
+                <a href="{{ url_for('content.glossary', category='objects') }}" 
+                   class="btn btn-outline-primary {% if category == 'objects' %}active{% endif %}">
+                    Objects
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" id="glossary-search" class="form-control" 
+                       placeholder="Search terms..." aria-label="Search terms">
+                <span class="input-group-text">
+                    <i class="fas fa-search"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="glossary-content">
+        {% if items %}
+            <div class="accordion" id="glossaryAccordion">
+                {% for item in items %}
+                    <div class="accordion-item glossary">
+                        <h2 class="accordion-header" id="heading{{ item.id }}">
+                            <button class="accordion-button collapsed glossary__term" type="button" 
+                                    data-bs-toggle="collapse" data-bs-target="#collapse{{ item.id }}">
+                                {{ item.term }}
+                                {% if item.category %}
+                                    <span class="badge bg-secondary ms-2">{{ item.category }}</span>
+                                {% endif %}
+                            </button>
+                        </h2>
+                        <div id="collapse{{ item.id }}" class="accordion-collapse collapse" 
+                             data-bs-parent="#glossaryAccordion">
+                            <div class="accordion-body glossary__definition">
+                                {{ item.definition | safe }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                No glossary items found for this category.
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.getElementById('glossary-search').addEventListener('keyup', function(e) {
+            const searchText = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('.glossary');
+            
+            items.forEach(item => {
+                const term = item.querySelector('.glossary__term').textContent.toLowerCase();
+                const definition = item.querySelector('.glossary__definition').textContent.toLowerCase();
+                
+                if (term.includes(searchText) || definition.includes(searchText)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</div>
+{% endblock %}
