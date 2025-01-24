@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <section class="featured-articles mb-5">
+        <h2 class="section-title">Artículos Destacados</h2>
+        <div class="row">
+            {% for article in articles %}
+                <div class="col-md-4 mb-4">
+                    <article class="card h-100">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ article.title }}</h3>
+                            <div class="card-text">
+                                {{ article.content[:200] }}{% if article.content|length > 200 %}...{% endif %}
+                            </div>
+                            <div class="mt-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-user"></i> {{ article.author.username }} |
+                                    <i class="fas fa-calendar"></i> {{ article.created_at.strftime('%d/%m/%Y') }}
+                                </small>
+                            </div>
+                            <a href="{{ url_for('content.article', id=article.id) }}" class="btn btn-primary mt-3">Leer más</a>
+                        </div>
+                    </article>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info">No hay artículos disponibles.</div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="latest-news mb-5">
+        <h2 class="section-title">Últimas Noticias</h2>
+        <div class="row">
+            {% for item in news %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="card-title h5">{{ item.title }}</h3>
+                            <div class="card-text">
+                                {{ item.content[:150] }}{% if item.content|length > 150 %}...{% endif %}
+                            </div>
+                            <div class="mt-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-calendar"></i> {{ item.created_at.strftime('%d/%m/%Y') }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info">No hay noticias disponibles.</div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="quick-links">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-book fa-3x mb-3"></i>
+                        <h3 class="h5">Glosario</h3>
+                        <p>Explora términos y conceptos importantes</p>
+                        <a href="{{ url_for('content.glossary') }}" class="btn btn-outline-primary">Ver Glosario</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-newspaper fa-3x mb-3"></i>
+                        <h3 class="h5">Todos los Artículos</h3>
+                        <p>Accede a nuestra biblioteca completa</p>
+                        <a href="{{ url_for('content.articles') }}" class="btn btn-outline-primary">Ver Artículos</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-rss fa-3x mb-3"></i>
+                        <h3 class="h5">Últimas Noticias</h3>
+                        <p>Mantente al día con las actualizaciones</p>
+                        <a href="{{ url_for('content.news') }}" class="btn btn-outline-primary">Ver Noticias</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
