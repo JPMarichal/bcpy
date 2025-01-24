@@ -1,15 +1,15 @@
-// Variables de color
-$primary-white: #f9f7f4;
-$secondary-white: #f4f1ed;
-$accent-gold: #d4b88c;
-$accent-gold-light: #e5d5b7;
-$accent-gold-dark: #b89b6b;
-$text-brown: #4a3c2d;
-$text-brown-light: #7a6855;
-$link-blue: #526b8c;
-$link-blue-hover: #3a4f6b;
-$border-color: #e5d5b7;
-$sidebar-bg: #f4f1ed;
+// Variables de color inspiradas en interiores de templos
+$primary-white: #FFFFFF;  // Blanco puro para fondos principales
+$sacred-cream: #F9F5F0;   // Crema suave para áreas secundarias
+$warm-cream: #F5F0E6;     // Crema cálido para fondos alternos
+$gold-light: #D4C7A5;     // Dorado claro para acentos suaves
+$gold-medium: #C4B080;    // Dorado medio para bordes y detalles
+$gold-dark: #A69660;      // Dorado oscuro para elementos importantes
+$sage-green: #E6EBE0;     // Verde salvia muy suave para variación
+$text-dark: #2C2518;      // Marrón oscuro para texto principal
+$text-medium: #5C4F3C;    // Marrón medio para texto secundario
+$link-color: #8B7355;     // Marrón cálido para enlaces
+$border-light: #E8E0D0;   // Borde claro para elementos sutiles
 
 // Tipografía
 $font-primary: 'Crimson Text', serif;
@@ -17,15 +17,19 @@ $font-secondary: 'Lato', sans-serif;
 
 // Mixins
 @mixin sacred-border {
-  border: 1px solid $border-color;
+  border: 1px solid $border-light;
   border-radius: 4px;
-  box-shadow: 0 2px 4px rgba($accent-gold-dark, 0.1);
+  box-shadow: 0 2px 4px rgba($gold-dark, 0.1);
+}
+
+@mixin elegant-transition {
+  transition: all 0.3s ease-in-out;
 }
 
 // Estilos base
 body {
   font-family: $font-primary;
-  color: $text-brown;
+  color: $text-dark;
   background-color: $primary-white;
   line-height: 1.6;
 }
@@ -33,12 +37,21 @@ body {
 // Encabezados
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-secondary;
-  color: $text-brown;
-  margin-bottom: 1rem;
+  color: $text-dark;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
 }
 
-h1 { font-size: 2.5rem; color: $accent-gold-dark; }
-h2 { font-size: 2rem; }
+h1 { 
+  font-size: 2.5rem; 
+  color: $gold-dark;
+  border-bottom: 2px solid $gold-light;
+  padding-bottom: 0.5rem;
+}
+h2 { 
+  font-size: 2rem; 
+  color: $text-medium;
+}
 h3 { font-size: 1.75rem; }
 h4 { font-size: 1.5rem; }
 h5 { font-size: 1.25rem; }
@@ -46,60 +59,69 @@ h6 { font-size: 1rem; }
 
 // Enlaces
 a {
-  color: $link-blue;
+  color: $link-color;
   text-decoration: none;
-  transition: color 0.3s ease;
-  
+  @include elegant-transition;
+
   &:hover {
-    color: $link-blue-hover;
+    color: $gold-dark;
   }
 }
 
 // Elementos de texto
 p {
   margin-bottom: 1.5rem;
-  color: $text-brown;
+  color: $text-dark;
+  line-height: 1.8;
 }
 
 blockquote {
-  border-left: 4px solid $accent-gold;
-  padding-left: 1rem;
+  border-left: 4px solid $gold-light;
+  padding: 1.5rem;
   margin: 1.5rem 0;
+  background-color: $sacred-cream;
   font-style: italic;
-  color: $text-brown-light;
+  color: $text-medium;
 }
 
 // Listas
 ul, ol {
   margin-bottom: 1.5rem;
   padding-left: 1.5rem;
-  
+
   li {
-    margin-bottom: 0.5rem;
-    color: $text-brown;
+    margin-bottom: 0.75rem;
+    color: $text-dark;
+
+    &::marker {
+      color: $gold-medium;
+    }
   }
 }
 
 // Tablas
 table {
   width: 100%;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   border-collapse: collapse;
   @include sacred-border;
-  
+
   th, td {
-    padding: 0.75rem;
-    border: 1px solid $border-color;
+    padding: 1rem;
+    border: 1px solid $border-light;
   }
-  
+
   th {
-    background-color: $secondary-white;
-    color: $text-brown;
+    background-color: $warm-cream;
+    color: $text-medium;
     font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
   }
-  
+
   tr:nth-child(even) {
-    background-color: rgba($secondary-white, 0.5);
+    background-color: $sacred-cream;
   }
 }
 
@@ -108,15 +130,16 @@ table {
   @include sacred-border;
   background-color: $primary-white;
   margin-bottom: 1.5rem;
-  
+
   .card-header {
-    background-color: $secondary-white;
-    border-bottom: 1px solid $border-color;
+    background-color: $warm-cream;
+    border-bottom: 1px solid $border-light;
     padding: 1rem;
     font-family: $font-secondary;
-    color: $text-brown;
+    color: $text-medium;
+    font-weight: 500;
   }
-  
+
   .card-body {
     padding: 1.5rem;
   }
@@ -124,26 +147,39 @@ table {
 
 // Sidebar
 .sidebar {
-  background-color: $sidebar-bg;
+  background-color: $sacred-cream;
   padding: 1.5rem;
   @include sacred-border;
-  
+
   h3 {
-    color: $accent-gold-dark;
+    color: $gold-dark;
     margin-bottom: 1rem;
+    font-size: 1.3rem;
+    border-bottom: 2px solid $gold-light;
+    padding-bottom: 0.5rem;
   }
-  
+
   ul {
     list-style: none;
     padding-left: 0;
-    
+
     li {
       margin-bottom: 0.75rem;
-      
+      border-bottom: 1px solid $border-light;
+      padding-bottom: 0.75rem;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
       a {
-        color: $text-brown;
+        color: $text-medium;
+        display: block;
+        @include elegant-transition;
+
         &:hover {
-          color: $accent-gold-dark;
+          color: $gold-dark;
+          padding-left: 0.5rem;
         }
       }
     }
@@ -152,43 +188,62 @@ table {
 
 // Navbar personalizada
 .navbar {
-  background-color: $primary-white !important;
-  border-bottom: 1px solid $border-color;
-  
+  background-color: $primary-white;
+  border-bottom: 1px solid $border-light;
+  box-shadow: 0 2px 4px rgba($gold-dark, 0.05);
+
   .navbar-brand {
-    color: $accent-gold-dark !important;
+    color: $gold-dark;
     font-family: $font-secondary;
     font-weight: 600;
+    font-size: 1.5rem;
   }
-  
+
   .nav-link {
-    color: $text-brown !important;
-    
+    color: $text-medium;
+    @include elegant-transition;
+
     &:hover {
-      color: $accent-gold-dark !important;
+      color: $gold-dark;
     }
   }
 }
 
 // Footer
 .footer {
-  background-color: $secondary-white !important;
-  border-top: 1px solid $border-color;
-  
+  background-color: $sacred-cream;
+  border-top: 1px solid $border-light;
+  padding: 2rem 0;
+  margin-top: 3rem;
+
   .text-muted {
-    color: $text-brown-light !important;
+    color: $text-medium;
   }
 }
 
 // Botones
 .btn-primary {
-  background-color: $accent-gold;
-  border-color: $accent-gold-dark;
-  color: $text-brown;
-  
+  background-color: $gold-medium;
+  border-color: $gold-dark;
+  color: $primary-white;
+  @include elegant-transition;
+
   &:hover {
-    background-color: $accent-gold-dark;
-    border-color: $accent-gold-dark;
+    background-color: $gold-dark;
+    border-color: $gold-dark;
     color: $primary-white;
+    transform: translateY(-1px);
+  }
+}
+
+.btn-outline-primary {
+  border-color: $gold-medium;
+  color: $gold-dark;
+  @include elegant-transition;
+
+  &:hover {
+    background-color: $gold-light;
+    border-color: $gold-dark;
+    color: $text-dark;
   }
 }
