@@ -1,0 +1,194 @@
+// Variables de color
+$primary-white: #f9f7f4;
+$secondary-white: #f4f1ed;
+$accent-gold: #d4b88c;
+$accent-gold-light: #e5d5b7;
+$accent-gold-dark: #b89b6b;
+$text-brown: #4a3c2d;
+$text-brown-light: #7a6855;
+$link-blue: #526b8c;
+$link-blue-hover: #3a4f6b;
+$border-color: #e5d5b7;
+$sidebar-bg: #f4f1ed;
+
+// Tipografía
+$font-primary: 'Crimson Text', serif;
+$font-secondary: 'Lato', sans-serif;
+
+// Mixins
+@mixin sacred-border {
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba($accent-gold-dark, 0.1);
+}
+
+// Estilos base
+body {
+  font-family: $font-primary;
+  color: $text-brown;
+  background-color: $primary-white;
+  line-height: 1.6;
+}
+
+// Encabezados
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-secondary;
+  color: $text-brown;
+  margin-bottom: 1rem;
+}
+
+h1 { font-size: 2.5rem; color: $accent-gold-dark; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+// Enlaces
+a {
+  color: $link-blue;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: $link-blue-hover;
+  }
+}
+
+// Elementos de texto
+p {
+  margin-bottom: 1.5rem;
+  color: $text-brown;
+}
+
+blockquote {
+  border-left: 4px solid $accent-gold;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: $text-brown-light;
+}
+
+// Listas
+ul, ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  
+  li {
+    margin-bottom: 0.5rem;
+    color: $text-brown;
+  }
+}
+
+// Tablas
+table {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  border-collapse: collapse;
+  @include sacred-border;
+  
+  th, td {
+    padding: 0.75rem;
+    border: 1px solid $border-color;
+  }
+  
+  th {
+    background-color: $secondary-white;
+    color: $text-brown;
+    font-weight: 600;
+  }
+  
+  tr:nth-child(even) {
+    background-color: rgba($secondary-white, 0.5);
+  }
+}
+
+// Cards
+.card {
+  @include sacred-border;
+  background-color: $primary-white;
+  margin-bottom: 1.5rem;
+  
+  .card-header {
+    background-color: $secondary-white;
+    border-bottom: 1px solid $border-color;
+    padding: 1rem;
+    font-family: $font-secondary;
+    color: $text-brown;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+}
+
+// Sidebar
+.sidebar {
+  background-color: $sidebar-bg;
+  padding: 1.5rem;
+  @include sacred-border;
+  
+  h3 {
+    color: $accent-gold-dark;
+    margin-bottom: 1rem;
+  }
+  
+  ul {
+    list-style: none;
+    padding-left: 0;
+    
+    li {
+      margin-bottom: 0.75rem;
+      
+      a {
+        color: $text-brown;
+        &:hover {
+          color: $accent-gold-dark;
+        }
+      }
+    }
+  }
+}
+
+// Navbar personalizada
+.navbar {
+  background-color: $primary-white !important;
+  border-bottom: 1px solid $border-color;
+  
+  .navbar-brand {
+    color: $accent-gold-dark !important;
+    font-family: $font-secondary;
+    font-weight: 600;
+  }
+  
+  .nav-link {
+    color: $text-brown !important;
+    
+    &:hover {
+      color: $accent-gold-dark !important;
+    }
+  }
+}
+
+// Footer
+.footer {
+  background-color: $secondary-white !important;
+  border-top: 1px solid $border-color;
+  
+  .text-muted {
+    color: $text-brown-light !important;
+  }
+}
+
+// Botones
+.btn-primary {
+  background-color: $accent-gold;
+  border-color: $accent-gold-dark;
+  color: $text-brown;
+  
+  &:hover {
+    background-color: $accent-gold-dark;
+    border-color: $accent-gold-dark;
+    color: $primary-white;
+  }
+}
