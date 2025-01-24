@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="articles-section">
+    <h1 class="mb-4">Artículos</h1>
+
+    <div class="articles-grid">
+        {% for article in articles.items %}
+            <article class="article-card mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title h4">
+                            <a href="{{ url_for('content.article', id=article.id) }}" class="text-decoration-none text-dark">
+                                {{ article.title }}
+                            </a>
+                        </h2>
+                        <div class="article-meta text-muted mb-2">
+                            <span><i class="fas fa-user"></i> {{ article.author.username }}</span>
+                            <span class="ms-3"><i class="fas fa-calendar"></i> {{ article.created_at.strftime('%d/%m/%Y') }}</span>
+                            {% if article.category %}
+                                <span class="ms-3"><i class="fas fa-folder"></i> {{ article.category }}</span>
+                            {% endif %}
+                        </div>
+                        <p class="card-text">
+                            {{ article.content[:200] }}{% if article.content|length > 200 %}...{% endif %}
+                        </p>
+                        <a href="{{ url_for('content.article', id=article.id) }}" class="btn btn-primary">Leer más</a>
+                    </div>
+                </div>
+            </article>
+        {% else %}
+            <div class="alert alert-info">No hay artículos disponibles en este momento.</div>
+        {% endfor %}
+    </div>
+
+    {% if articles.pages > 1 %}
+        <nav aria-label="Navegación de artículos" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if articles.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('content.articles', page=articles.prev_num) }}">
+                            <i class="fas fa-chevron-left"></i> Anterior
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link"><i class="fas fa-chevron-left"></i> Anterior</span>
+                    </li>
+                {% endif %}
+
+                {% for page_num in articles.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
+                    {% if page_num %}
+                        <li class="page-item {% if page_num == articles.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('content.articles', page=page_num) }}">{{ page_num }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if articles.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('content.articles', page=articles.next_num) }}">
+                            Siguiente <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">Siguiente <i class="fas fa-chevron-right"></i></span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+{% endblock %}
